@@ -3,20 +3,31 @@ import { handleGameTurn } from '@/lib/ai-game-service';
 
 export async function POST(req: NextRequest) {
   try {
-    // Get audio data from the request
-    const audioBlob = await req.blob();
+    const formData = await req.formData();
+    const audioFile = formData.get('audio') as File;
+    const currentItemsStr = formData.get('currentItems') as string;
+    
+    if (!audioFile) {
+      return NextResponse.json(
+        { error: 'No audio file provided' },
+        { status: 400 }
+      );
+    }
 
-    // Call your main AI function, passing it the audio
-    const result = await handleGameTurn(audioBlob);
+    const audioBlob = new Blob([await audioFile.arrayBuffer()], { type: audioFile.type });
+    const currentItems = currentItemsStr ? JSON.parse(currentItemsStr) : [];
 
-    if (result.success) {
-      // Send the audio response back to the frontend
-      return new NextResponse(result.audioData, {
+    const result = await handleGameTurn(audioBlob, currentItems);
+
+    if (result.success && result.audioData) {
+      return new NextResponse(JSON.stringify({
+        audioData: Buffer.from(result.audioData).toString('base64'),
+        newItems: result.newItems || []
+      }), {
         status: 200,
-        headers: { 'Content-Type': 'audio/mpeg' },
+        headers: { 'Content-Type': 'application/json' },
       });
     } else {
-      // Return an error if something went wrong
       return NextResponse.json(
         { error: result.error },
         { status: 500 }

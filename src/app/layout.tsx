@@ -12,8 +12,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Voice Mini Game',
-  description:
-    'A modern Next.js application using Bun as package manager, featuring shadcn/ui components.',
+  description: 'A modern Next.js application using Bun.',
   keywords: ['Next.js', 'Bun', 'TypeScript', 'shadcn/ui', 'React'],
   authors: [{ name: '' }],
   creator: '',

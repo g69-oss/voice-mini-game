@@ -28,10 +28,12 @@
     "openai": "^4.52.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "ws": "^8.14.2"
   },
   "devDependencies": {
     "@radix-ui/react-slot": "^1.2.3",
+    "@types/fluent-ffmpeg": "^2.1.27",
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
